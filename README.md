@@ -20,7 +20,7 @@
 | Category | Technology |
 | :--- | :--- |
 | **Framework** | Next.js 15+ (App Router), TypeScript |
-| **Styling** | Tailwind CSS, shadcn/ui, Framer Motion |
+| **Styling** | Tailwind CSS, Framer Motion |
 | **Data Handling** | TanStack Query (React Query), Prisma ORM |
 | **Authentication** | JWT, CryptoJS (AES Encryption), HttpOnly Cookies |
 | **Database** | MySQL, PostgreSQL |
