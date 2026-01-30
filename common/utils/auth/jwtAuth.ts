@@ -1,86 +1,59 @@
-import {SignJWT , jwtVerify, decodeJwt} from 'jose';
+import { SignJWT, jwtVerify, decodeJwt } from "jose";
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+interface TokenPayload {
+  id: number;
+  accountId: string;
+  isAdmin: boolean | null;
+  exp: number;
+}
 
 // access Token 발급
 const sign = async (payload: object) => {
-  return await new SignJWT({ ...payload }).setProtectedHeader({ alg: 'HS256', typ: 'JWT' }).setExpirationTime('1h').sign(secret)
+  const accessToken_expiresIn = process.env.ACCESSTOKEN_EXPIRES_IN;
+  if (!accessToken_expiresIn)
+    throw new Error("ACCESSTOKEN_EXPIRES_IN is not defined");
+  return await new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+    .setExpirationTime(accessToken_expiresIn)
+    .sign(secret);
 };
 
 // access Token 검증
-const verify = async (token: string) => {
-    try {
-      const payload = await jwtVerify(token, Buffer.from(secret));
-      return payload;
-    } catch (err) {
-      return {
-        ok: false,
-        message: 'error verify',
-      };
-    }
+const verify = async (token: string): Promise<TokenPayload | null> => {
+  try {
+    const { payload } = await jwtVerify(token, Buffer.from(secret));
+    return payload as unknown as TokenPayload;
+  } catch (err) {
+    return null;
+  }
 };
 
 // refresh Token 발급
 const refresh = async (payload: object) => {
-  return await new SignJWT({ ...payload }).setProtectedHeader({ alg: 'HS256', typ: 'JWT' }).setExpirationTime('12h').sign(secret)
+  const refreshToken_expiresIn = process.env.REFRESHTOKEN_EXPIRES_IN;
+  if (!refreshToken_expiresIn)
+    throw new Error("REFRESHTOKEN_EXPIRES_IN is not defined");
+  return await new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+    .setExpirationTime(refreshToken_expiresIn)
+    .sign(secret);
 };
 
-const refreshVerify = async (token: string): Promise<boolean> => {
+const refreshVerify = async (
+  token: string,
+): Promise<{ id: number; accountId: string; isAdmin: boolean } | null> => {
   try {
-    const payload =  await jwtVerify(token,  Buffer.from(secret));
-    return true;
+    const refresh = await jwtVerify(token, Buffer.from(secret));
+    return refresh.payload as {
+      id: number;
+      accountId: string;
+      isAdmin: boolean;
+      groups: number[];
+    };
   } catch (error) {
-    return false;
+    return null;
   }
 };
 
 export { sign, verify, refresh, refreshVerify };
-// import jwt from 'jsonwebtoken';
-// const secret = process.env.JWT_SECRET!;
-
-// const decode = (accessToken: string | undefined) =>{
-//   return jwt.decode(accessToken);
-// }
-// // access Token 발급
-// const sign = (args:object) => {
-//   return jwt.sign(args, secret, {
-//     algorithm: 'HS256', // 암호화 알고리즘
-//     expiresIn: '1h', // 유효기간
-//   });
-// };
-
-// // access Token 검증
-// const verify = (token: string) => {
-//   let decoded: any = null;
-//   try {
-//     decoded = jwt.verify(token, secret);
-//     return {
-//       ok: true,
-//       id: decoded.id,
-//       isAdmin: decoded.isAdmin
-//     };
-//   } catch (error: any) {
-//     return {
-//       ok: false,
-//       message: error.message,
-//     };
-//   }
-// };
-
-// // refresh Token 발급
-// const refresh = (args:object) => {
-//   return jwt.sign(args, secret, {
-//     algorithm: 'HS256',
-//     expiresIn: '1d', // 유효기간
-//   });
-// };
-
-// const refreshVerify = (token: string) => {
-//   try {
-//     jwt.verify(token, secret);
-//     return true;
-//   } catch (error) {
-//     return false;
-//   }
-// };
-
-// export { sign, verify, refresh, refreshVerify, decode };

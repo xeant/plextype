@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import RightPortal from '@plextype/components/panel/RightPortal'
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import RightPortal from "@plextype/components/panel/RightPortal";
 
 const Right = ({ state, close, children }) => {
-  const [panelState, setPanelState] = useState(false)
+  const [panelState, setPanelState] = useState(false);
   useEffect(() => {
-    setPanelState(state)
-  }, [state])
+    setPanelState(state);
+  }, [state]);
   // useEffect(() => {
   //   if (panelState === true) {
   //     const $body = document.querySelector('body')
@@ -22,27 +22,27 @@ const Right = ({ state, close, children }) => {
 
   useEffect(() => {
     if (panelState === true) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
       return () => {
-        document.body.style.overflow = 'unset'
-      }
+        document.body.style.overflow = "unset";
+      };
     }
-  }, [panelState])
+  }, [panelState]);
 
   const variants = {
     openPanel: {
-      right: '0px',
+      right: "0px",
       transition: { duration: 0.3 },
     },
     closePanel: {
-      right: '-480px',
+      right: "-480px",
       transition: { duration: 0.5 },
     },
-  }
+  };
   const exit = {
-    right: '-480px',
+    right: "-480px",
     transition: { duration: 0.5 },
-  }
+  };
   const variants2 = {
     openPanel: {
       opacity: 1,
@@ -52,22 +52,22 @@ const Right = ({ state, close, children }) => {
       opacity: 0,
       transition: { duration: 0.5 },
     },
-  }
+  };
   const exit2 = {
     opacity: 0,
     transition: { duration: 0.5 },
-  }
+  };
   const handleClosePanel = () => {
-    close(false)
-  }
+    close(false);
+  };
   return (
     <>
       <AnimatePresence>
         {state && (
           <RightPortal>
             <motion.div
-              initial={{ right: '-480px' }}
-              animate={panelState === true ? 'openPanel' : 'closePanel'}
+              initial={{ right: "-480px" }}
+              animate={panelState === true ? "openPanel" : "closePanel"}
               variants={variants}
               exit={exit}
               className="z-99 fixed bottom-0 top-0 w-[380px] transform"
@@ -95,16 +95,16 @@ const Right = ({ state, close, children }) => {
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
-              animate={panelState === true ? 'openPanel' : 'closePanel'}
+              animate={panelState === true ? "openPanel" : "closePanel"}
               variants={variants2}
               exit={exit2}
               onClick={handleClosePanel}
-              className="z-90 fixed inset-0 bg-gray-950/20"
+              className="z-90 fixed inset-0 bg-gray-950/20 dark:bg-dark-800/20"
             ></motion.div>
           </RightPortal>
         )}
       </AnimatePresence>
     </>
-  )
-}
-export default Right
+  );
+};
+export default Right;

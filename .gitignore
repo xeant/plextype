@@ -37,7 +37,23 @@ next-env.d.ts
 
 # dotenv environment variable files
 .env
-.env.development
+.env.development.local
 .env.test.local
-.env.production
+.env.production.local
 .env.local
+
+docker-compose.yml
+
+# JetBrains IDE
+.idea/
+
+package-lock.json
+
+.env
+.env.development
+.env.production
+
+/files
+/storage_data
+
+.opencode/

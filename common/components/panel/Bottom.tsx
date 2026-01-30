@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import BottomPortal from '@plextype/components/panel/BottomPortal'
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import BottomPortal from "@plextype/components/panel/BottomPortal";
 
 const Bottom = ({ children }) => {
-  const router = useRouter()
-  const [panelState, setPanelState] = useState(false)
-  const [state, setState] = useState(false)
+  const router = useRouter();
+  const [panelState, setPanelState] = useState(false);
+  const [state, setState] = useState(false);
   useEffect(() => {
-    setPanelState(true)
-  }, [])
+    setPanelState(true);
+  }, []);
   // useEffect(() => {
   //   if (panelState === true) {
   //     const $body = document.querySelector('body')
@@ -24,23 +24,23 @@ const Bottom = ({ children }) => {
   // }, [panelState])
   useEffect(() => {
     if (panelState === true) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
       return () => {
-        document.body.style.overflow = 'unset'
-      }
+        document.body.style.overflow = "unset";
+      };
     }
-  }, [panelState])
+  }, [panelState]);
 
   const variants = {
     openPanel: {
-      bottom: '0%',
+      bottom: "0%",
       transition: { duration: 0.3 },
     },
     closePanel: {
-      bottom: '-100%',
+      bottom: "-100%",
       transition: { duration: 0.3 },
     },
-  }
+  };
   const variants2 = {
     openPanel: {
       opacity: 1,
@@ -50,40 +50,40 @@ const Bottom = ({ children }) => {
       opacity: 0,
       transition: { duration: 0.5 },
     },
-  }
+  };
   const exit = {
-    bottom: '-100%',
+    bottom: "-100%",
     transition: { duration: 0.5 },
-  }
+  };
   const exit2 = {
     opacity: 0,
     transition: { duration: 0.5 },
-  }
+  };
   const handleClosePanel = () => {
     // close(false)
-    setPanelState(false)
+    setPanelState(false);
     setTimeout(() => {
-      router.back()
-    }, 500)
-  }
+      router.back();
+    }, 500);
+  };
   useEffect(() => {
-    const handleKeyPress = event => {
-      if (event.key === 'Escape') {
+    const handleKeyPress = (event) => {
+      if (event.key === "Escape") {
         // ESC 키를 눌렀을 때 실행할 함수 호출
-        setPanelState(false)
+        setPanelState(false);
         setTimeout(() => {
-          router.back()
-        }, 500)
+          router.back();
+        }, 500);
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyPress)
+    document.addEventListener("keydown", handleKeyPress);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리
     return () => {
-      document.removeEventListener('keydown', handleKeyPress)
-    }
-  }, []) // useEffect가 처음에 한 번만 호출되도록 빈 배열을 전달
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []); // useEffect가 처음에 한 번만 호출되도록 빈 배열을 전달
 
   return (
     <>
@@ -95,8 +95,8 @@ const Bottom = ({ children }) => {
               className="fixed w-screen h-screen transform overflow-auto z-100 flex justify-center items-end px-1"
             > */}
             <motion.div
-              initial={{ bottom: '-100%' }}
-              animate={panelState === true ? 'openPanel' : 'closePanel'}
+              initial={{ bottom: "-100%" }}
+              animate={panelState === true ? "openPanel" : "closePanel"}
               variants={variants}
               exit={exit}
               className="bootom-1 z-101 fixed left-1/2 h-full w-full -translate-x-1/2"
@@ -132,7 +132,7 @@ const Bottom = ({ children }) => {
 
             <motion.div
               initial={{ opacity: 0 }}
-              animate={panelState === true ? 'openPanel' : 'closePanel'}
+              animate={panelState === true ? "openPanel" : "closePanel"}
               variants={variants2}
               exit={exit2}
               onClick={handleClosePanel}
@@ -142,6 +142,6 @@ const Bottom = ({ children }) => {
         )}
       </AnimatePresence>
     </>
-  )
-}
-export default Bottom
+  );
+};
+export default Bottom;

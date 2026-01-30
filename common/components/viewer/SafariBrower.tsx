@@ -1,5 +1,4 @@
-import Image from 'next/image'
-const SafariBrower = props => {
+const SafariBrower = ({ children }) => {
   return (
     <>
       <div className="shadow-lg shadow-gray-100 dark:shadow-dark-900/10 rounded-xl min-w-full max-w-full border border-gray-200 dark:border-dark-800">
@@ -60,23 +59,7 @@ const SafariBrower = props => {
           </div>
         </div>
         <div className="relative border-t border-gray-100 dark:border-dark-900 rounded-b-xl bg-white dark:bg-dark-900/80 overflow-hidden">
-          <div className="w-full relative h-full p-[1px]">
-            <div className="h-[150px]"></div>
-            {props.image && (
-              <Image
-                src={props.image}
-                quality={100}
-                width={1024}
-                height={100}
-                style={{
-                  width: '100%',
-                  objectFit: 'cover',
-                }}
-                alt="image"
-                className="relative"
-              />
-            )}
-          </div>
+          <div className="w-full relative h-full p-[1px]">{children}</div>
         </div>
       </div>
     </>

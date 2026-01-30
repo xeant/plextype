@@ -8,9 +8,7 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
   }, [error])
   return (
     <div className="text-center text-rose-500 py-20 text-lg">
-      {error
-        ? `An error ${error} occurred on server`
-        : 'An error occurred on client'}
+      {error ? `An error ${error} occurred on server` : 'An error occurred on client'}
 
       <button onClick={() => reset()}>Try again</button>
     </div>

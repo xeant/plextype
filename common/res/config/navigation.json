@@ -1,118 +1,46 @@
 {
   "header": {
-    "works": {
-      "name": "works",
-      "title": "Works",
-      "route": "/posts/works",
+    "features": {
+      "name": "features",
+      "title": "Features",
+      "route": "/features",
+      "parent": "features",
       "icon": "",
       "subMenu": [
-        {
-            "title": "Works",
-            "name": "works",
-            "icon": "",
-            "parent": "works",
-            "route": "/posts/works"
-        },
-        {
-            "title": "작업이력",
-            "name": "workHistory",
-            "icon": "",
-            "parent": "works",
-            "route": "/posts/workHistory"
-        },
-        {
-            "title": "개발팁",
-            "name": "devTip",
-            "icon": "",
-            "parent": "works",
-            "route": "/posts/devTip"
-        }
+
         ]
     },
-    "service": {
-      "name": "service",
-      "title": "Service",
-      "route": "/service",
+
+    "store": {
+      "name": "store",
+      "title": "Store",
+      "route": "/posts/store",
+      "parent": "store",
       "icon": "",
       "subMenu": [
-        {
-            "title": "서비스",
-            "name": "service",
-            "icon": "",
-            "parent": "service",
-            "route": "/service"
-          },
-          {
-            "title": "증강현실",
-            "name": "ar",
-            "icon": "",
-            "parent": "service",
-            "route": "/service/ar"
-          },
-          {
-            "title": "인공지능",
-            "name": "ai",
-            "icon": "",
-            "parent": "service",
-            "route": "/service/ai"
-          }
-      ]
-    },
-    "plextype": {
-      "name": "plextype",
-      "title": "Plextype",
-      "route": "/plextype",
-      "icon": "",
-      "subMenu": [
-        {
-            "title": "Plextype",
-            "name": "plextype",
-            "icon": "",
-            "parent": "plextype",
-            "route": "/plextype"
-          },
-          {
-            "title": "Templates",
-            "name": "templates",
-            "icon": "",
-            "parent": "plextype",
-            "route": "/plextype/templates"
-          },
-          {
-            "title": "API Requests",
-            "name": "apiRequests",
-            "icon": "",
-            "parent": "plextype",
-            "route": "/plextype/templates"
-          }
-      ]
+        
+        ]
     },
     "supports": {
       "name": "supports",
       "title": "Supports",
-      "route": "/supports",
+      "route": "/posts/supports",
       "icon": "",
+      "parent": "supports",
       "subMenu": [
         {
-          "title": "Supports",
-          "name": "supports",
-          "icon": "",
-          "parent": "supports",
-          "route": "/supports"
+            "title": "기술지원",
+            "name": "supports",
+            "icon": "",
+            "parent": "supports",
+            "route": "/posts/supports"
         },
         {
-          "title": "공지사항",
-          "name": "notice",
-          "icon": "",
-          "parent": "supports",
-          "route": "/posts/notice"
-        },
-        {
-          "title": "자주묻는 질문",
-          "name": "faq",
-          "icon": "",
-          "parent": "supports",
-          "route": "/posts/faq"
+            "title": "공지사항",
+            "name": "notice",
+            "icon": "",
+            "parent": "supports",
+            "route": "/posts/notice"
         }
       ]
     }

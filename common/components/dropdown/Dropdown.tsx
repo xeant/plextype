@@ -51,7 +51,7 @@ const Dropdown = ({ state, close, children }) => {
         variants={variants}
         transition={{ duration: 0.5 }}
         className={
-          "dark:bg-dark-950/60 dark:border-dark-700 shadow-xs absolute right-0 top-12 z-[101] mt-2 overflow-hidden rounded-md border border-gray-200 bg-white/90 p-2 shadow-lg shadow-slate-200/50 backdrop-blur-lg dark:shadow-black/50 dark:backdrop-blur-lg"
+          "dark:bg-dark-950/75 dark:border-dark-300/10 shadow-xs absolute right-0 top-10 z-[101] mt-2 overflow-hidden rounded-md border border-gray-200 bg-white/90 p-2 shadow-lg shadow-gray-950/10 backdrop-blur-lg dark:shadow-black/50 dark:backdrop-blur-lg"
         }
       >
         <div className="relative z-[100]">{children}</div>
