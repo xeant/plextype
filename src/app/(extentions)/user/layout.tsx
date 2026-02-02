@@ -2,6 +2,7 @@
 import DefaultLayout from '@/layouts/plextype/Layout'
 import { cookies } from "next/headers";
 import { decodeJwt } from "jose";
+export const dynamic = 'force-dynamic';
 
 interface CurrentUser {
   id: number;

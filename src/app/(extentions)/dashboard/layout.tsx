@@ -9,6 +9,7 @@ import DefaultNav from "@plextype/components/nav/DefaultNav";
 import "@/app/globals.css";
 
 import nav from "@plextype/res/config/settings.json";
+export const dynamic = 'force-dynamic';
 
 export default function DashboardLayout({
   children, // will be a page or nested layout

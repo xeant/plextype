@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import DefaultLayout from 'src/layouts/plextype/Layout'
 
 const PageLayout = ({ children }) => {
