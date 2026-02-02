@@ -1,7 +1,10 @@
 {
-  "name": "gjworks",
+  "name": "plextype",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
+  },
   "scripts": {
     "dev": "dotenv -e .env.development next dev --turbo --port 3001",
     "build": "next build",
