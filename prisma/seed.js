@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 // 환경변수 로드
 const adminIdFromEnv = process.env.ADMIN_ACCOUNT_ID || "admin";
 const adminPwFromEnv = process.env.ADMIN_PASSWORD || "admin1234";
+const adminEmailFromEnv = process.env.ADMIN_EMAIL || "admin@test.com";
+const adminNicknameFromEnv = process.env.ADMIN_NICKNAME || "운영자";
 const saltRounds = 10; // bcrypt 보안 강도
 
 async function main() {
@@ -31,8 +33,8 @@ async function main() {
     update: {},
     create: {
       accountId: adminIdFromEnv,
-      email_address: 'admin@plextype.com',
-      nickName: '운영자',
+      email_address: adminEmailFromEnv,
+      nickName: adminNicknameFromEnv,
       password: hashedAdminPassword, // 해싱된 비밀번호 저장
       isAdmin: true,
       isManagers: true,
