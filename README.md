@@ -1,69 +1,74 @@
-# Plextype
+[일반 Install](install.mac.md) | [도커 Install](install.docker.md)
 
-# Install
 
+# 💎 PlexType
+**Modular, Type-Safe Development Kit for Modern Web Applications.**
+
+`PlexType`은 **"복합적인 구조(Plex)"**와 **"엄격한 타입 안정성(Type)"**을 결합한 차세대 개발 프레임워크입니다. Next.js App Router 환경에서 반복되는 UI 패턴과 비즈니스 로직을 모듈화하여 개발 생산성을 극대화합니다.
+
+
+
+---
+
+## 🚀 Core Philosophy
+
+* **Plexibility (Plex + Flexibility):** 파편화된 UI와 로직을 계층적으로 조립하여 복합적인 기능을 손쉽게 구현합니다.
+* **Type-Safety First:** 모든 데이터 흐름과 인터페이스에 TypeScript를 적용하여 런타임 에러를 최소화합니다.
+* **Ready-to-Use:** shadcn/ui 스타일의 컴포넌트, 전역 상태 관리를 위한 커스텀 훅, 인증 시스템이 이미 통합되어 있습니다.
+
+---
+
+## 🛠 Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 15+ (App Router), TypeScript |
+| **Styling** | Tailwind CSS, Framer Motion |
+| **Data Handling** | TanStack Query (React Query), Prisma ORM |
+| **Authentication** | JWT, CryptoJS (AES Encryption), HttpOnly Cookies |
+| **Database** | MySQL, PostgreSQL |
+
+---
+
+## 📦 Package Structure
+
+`@plextype`은 논리적으로 분리된 여러 모듈로 구성되어 있습니다.
+
+* **`@plextype/components`**: `Avatar`, `Dropdown`, `Nav` 등 고도로 재사용 가능한 원자적 UI 요소.
+* **`@plextype/hooks`**: `useUser`, `useAuth` 등 비즈니스 로직과 상태 관리를 캡슐화한 커스텀 훅.
+* **`@plextype/utils`**: JWT 인증, 날짜 변환, CryptoJS 기반의 보안 라이브러리.
+
+---
+
+## ✨ Key Features
+
+### 1. Unified Auth System
+`Next.js Route Handlers`와 `HttpOnly Cookie`를 이용한 안전한 세션 관리 및 **Silent Refresh** 패턴이 내장되어 있습니다. 토큰 만료 시 자동으로 갱신 프로세스를 수행합니다.
+
+### 2. Smart UI Components
+유저 상태에 따라 동적으로 변하는 스마트 컴포넌트를 제공하며, 데이터 로딩 시 레이아웃 시프트를 방지하는 Skeleton UI 대응이 되어 있습니다.
+
+### 3. Database Seeding & Schema
+Prisma를 활용한 체계적인 DB 설계와 관리자 계정, 기본 그룹 정보, 공지사항(`notice`) 게시판 등을 자동으로 구성하는 시드 스크립트를 포함합니다.
+
+---
+
+## 🏁 Getting Started
+
+### 1. Clone the repository
 ```bash
-git clone [git@github.com](mailto:git@github.com):Gjworks/plextype.git
-npm install
+git clone [https://github.com/Gjworks/plextype.git](https://github.com/Gjworks/plextype.git)
+cd plextype
 ```
 
-## .env
+## 📄 License
 
-로컬에서 개발 할 경우 `.env.development` 와 `.env.production` 과 `.env` 파일을 만들어 아래 값을 넣어줍니다.
+이 프로젝트는 **MIT License**를 따릅니다. 
+누구나 자유롭게 복제, 수정, 배포 및 상용으로 사용할 수 있으나, 소프트웨어 사용으로 인해 발생하는 모든 문제에 대한 책임은 사용자 본인에게 있으며 저작권자는 어떠한 책임도 지지 않습니다.
 
-`.env.development` 와 `.env.production` 의경우 서로 겹치는 경우에만 작성을 하며 기본적으로 겹치지 않은 경우는 `.env` 에만 넣어둬도 됩니다.
+자세한 내용은 [LICENSE](./LICENSE) 파일을 확인해 주세요.
 
-```bash
-PROJECT_NAME=프로젝트이름
-NEXT_PUBLIC_DEFAULT_URL=도메인주소
-NEXT_PUBLIC_SECRET=토큰
+Copyright (c) 2026 Gjworks
 
-JWT_SECRET=JWT에 사용될 토큰 
-SECRET_KEY=단방향 비밀번호에 생성될 토큰
-ACCESSTOKEN_EXPIRES_IN=1h
-REFRESHTOKEN_EXPIRES_IN=4h
 
-#테이블 생성 후 기본적인 관리자 정보를 넣기 위함
-ADMIN_ACCOUNT_ID=아이디
-ADMIN_PASSWORD=패스워드
-ADMIN_EMAIL=관리자이메일
-ADMIN_NICKNAME="관리자닉네임"
 
-#데이터베이스 정보
-DATABASE_URL="postgresql://DB_USER:DB_PASSWORD@postgres:5432/DB_NAME?schema=public"
-```
-
-`.env` 에서는 기본적으로 영어를 사용하며 `NAME=abcd` (=) 사이에 공백없이 반드시 붙여서 작성 하시기 바랍니다. 한글 및 띄어쓰기가 있는경우 “(쌍따옴)” 을 사용 합니다.
-
- 해당 토큰들 생성은
-
-```bash
-openssl rand -base64 32
-```
-
-를 통해서 나온 토큰 값들을 넣어서 생성된 값을 토큰 값에 넣어줍니다. 각 .env 파일 들에 넣어주고 절대로 유출되지 않도록 해야 합니다.
-
-<aside>
-💡
-
-`.env` 파일과 `.env.development` , `.env.production`  들은 절대 github등에 되지 않도록 주의 해야 하며 `gitignore` 에 작성은 되어 있으나 임의로 삭제후 github 저장소등에 올리지 마시기 바랍니다.
-
-</aside>
-
-## 첨부파일 폴더 생성
-
-그리고 프로젝트 최상위 폴더로 온다음에 `storage` 폴더를 만들어줍니다.
-
-```bash
-mkdir storage
-cd public
-mkdir storage
-ln -s ../storage storage
-```
-
-를 통해 폴더를 만들고 심볼링크를 해놓습니다.
-
-```bash
-npx prisma migrate dev
-npx prisma db seed
-```

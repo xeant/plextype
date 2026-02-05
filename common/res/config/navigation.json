@@ -21,6 +21,16 @@
         
         ]
     },
+    "drink": {
+      "name": "drink",
+      "title": "Drink",
+      "route": "/drink",
+      "parent": "drink",
+      "icon": "",
+      "subMenu": [
+        
+        ]
+    },
     "supports": {
       "name": "supports",
       "title": "Supports",
