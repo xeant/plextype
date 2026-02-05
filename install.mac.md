@@ -63,7 +63,7 @@ cd public
 mkdir storage
 ln -s ../storage storage
 ```
-
+ dfdfd
 를 통해 폴더를 만들고 심볼링크를 해놓습니다.
 
 ```bash
