@@ -196,87 +196,21 @@ model Attachment {
 
 
 // 1. 주류 카테고리 (와인, 위스키, 맥주 등)
-model DrinkCategory {
-  id        Int             @id @default(autoincrement())
-  name_ko      String          @unique // 카테고리 이름
-  name_en      String          @unique // 카테고리 이름
-  iso_code      String          @unique // 분류 코드
-  continent      String          // 분류 코드
-  flag_path      String          // 분류 코드
-  status      String          // 분류 코드
-}
-
-// 2. 생산 국가
 model DrinkCountry {
-  id        Int             @id @default(autoincrement())
-  name      String          @unique
-  isoCode   String?         @unique // ISO 국가 코드 (예: KR, US)
-  producers DrinkProducer[]
-  beverages DrinkBeverage[]
+  countryId   Int      @id @default(autoincrement()) @map("country_id")
+  nameKo      String   @map("name_ko") @db.VarChar(100)
+  nameEn      String?  @map("name_en") @db.VarChar(100)
+  isoCode     String?  @unique @map("iso_code") @db.VarChar(10)
+  continent   String?  @db.VarChar(50)
+  flagPath    String?  @map("flag_path") @db.VarChar(255)
+  listOrder   Int      @default(0) @map("list_order")
+  status      String   @default("active") @db.VarChar(20)
+
+  @@index([nameKo], name: "idx_name_ko")
+  @@index([isoCode], name: "idx_iso_code")
+  @@map("drink_country") // 실제 DB 테이블 이름 고정
 }
 
-// 3. 제조사/증류소
-model DrinkProducer {
-  id        Int             @id @default(autoincrement())
-  name      String
-  countryId Int
-  country   DrinkCountry    @relation(fields: [countryId], references: [id])
-  beverages DrinkBeverage[]
-  createdAt DateTime        @default(now())
-}
-
-// 4. 주류 제품 메인 (핵심 테이블)
-model DrinkBeverage {
-  id          Int            @id @default(autoincrement())
-  name        String         // 제품명
-  categoryId  Int
-  countryId   Int
-  producerId  Int
-  abv         Float          // 도수 (Alcohol by Volume)
-  volume      Int?           // 용량 (ml)
-  description String?        @db.Text
-  imageUrl    String?
-  
-  // 주종별 가변 데이터 (예: 와인의 빈티지, 위스키의 숙성연수 등)
-  specData    Json?          // PostgreSQL의 JSONB 타입을 활용한 확장 필드
-
-  category    DrinkCategory  @relation(fields: [categoryId], references: [id])
-  country     DrinkCountry   @relation(fields: [countryId], references: [id])
-  producer    DrinkProducer  @relation(fields: [producerId], references: [id])
-  
-  tastings    DrinkTasting[]
-  priceLogs   DrinkPrice[]
-  
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-}
-
-// 5. 시음 노트
-model DrinkTasting {
-  id         Int           @id @default(autoincrement())
-  beverageId Int
-  userId     Int           // 작성자 (기존 User 모델과 연결 가능)
-  rating     Float         // 평점
-  nose       String?       @db.Text // 향
-  palate     String?       @db.Text // 맛
-  finish     String?       @db.Text // 여운
-  note       String?       @db.Text // 종합 메모
-  
-  beverage   DrinkBeverage @relation(fields: [beverageId], references: [id])
-  createdAt  DateTime      @default(now())
-}
-
-// 6. 가격 로그 (구매 기록)
-model DrinkPrice {
-  id         Int           @id @default(autoincrement())
-  beverageId Int
-  price      Int           // 구매 가격
-  currency   String        @default("KRW")
-  shopName   String?       // 구매처
-  boughtAt   DateTime?     // 구매 날짜
-  beverage   DrinkBeverage @relation(fields: [beverageId], references: [id])
-  createdAt  DateTime      @default(now())
-}
 
 
 enum PermissionSubject {

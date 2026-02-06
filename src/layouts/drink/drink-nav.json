@@ -1,0 +1,45 @@
+{
+  "header": {
+    "country": {
+      "name": "country",
+      "title": "국가 관리",
+      "route": "/drink/country",
+      "subMenu": [
+        { "name": "country-list", "title": "국가 목록", "route": "/drink/country" },
+        { "name": "country-sync", "title": "데이터 동기화", "route": "/drink/country?sync=true" }
+      ]
+    },
+    "category": {
+      "name": "category",
+      "title": "카테고리 관리",
+      "route": "/drink/category",
+      "subMenu": [
+        { "name": "cat-main", "title": "주종 설정", "route": "/drink/category" }
+      ]
+    },
+    "price": {
+      "name": "price",
+      "title": "가격 관리",
+      "route": "/drink/price",
+      "subMenu": []
+    },
+    "distillery": {
+      "name": "distillery",
+      "title": "증류소 관리",
+      "route": "/drink/distillery",
+      "subMenu": []
+    },
+    "type": {
+      "name": "type",
+      "title": "술 종류 관리",
+      "route": "/drink/type",
+      "subMenu": []
+    },
+    "taste": {
+      "name": "taste",
+      "title": "맛데이터 관리",
+      "route": "/drink/taste",
+      "subMenu": []
+    }
+  }
+}
