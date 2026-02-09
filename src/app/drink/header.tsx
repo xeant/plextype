@@ -5,10 +5,8 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Wine, ChevronDown, Settings } from "lucide-react";
-
 import AccountDropwdown from "@/widgets/forms/AccountDropwdown";
-// JSON 설정 파일 임포트
-import drinkNavConfig from "@/layouts/drink/drink-nav.json";
+import drinkNavConfig from "@/app/drink/drink-nav.json";
 
 interface MenuItem {
   name: string;
@@ -23,7 +21,7 @@ export default function DrinkHeader() {
   const [currentRoute, setCurrentRoute] = useState("");
 
   useEffect(() => {
-    // 현재 경로의 2번째 세그먼트를 추출하여 활성화 메뉴 표시
+    // URL에서 현재 위치 표시 로직
     const segment = pathname?.split("/")[2] || "";
     setCurrentRoute(segment);
   }, [pathname]);
@@ -46,7 +44,6 @@ export default function DrinkHeader() {
   return (
     <header className="sticky top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        
         <div className="flex items-center gap-8">
           <Link href="/drink" className="font-extrabold text-xl tracking-tighter flex items-center gap-2 text-black">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-indigo-100 shadow-lg">
@@ -65,12 +62,11 @@ export default function DrinkHeader() {
               >
                 <Link
                   href={item.route}
-                  className={
-                    "relative flex items-center gap-1.5 py-1.5 px-3.5 text-sm tracking-tight transition-all duration-200 rounded-full " +
-                    (currentRoute === item.name
+                  className={`relative flex items-center gap-1.5 py-1.5 px-3.5 text-sm tracking-tight transition-all duration-200 rounded-full ${
+                    currentRoute === item.name
                       ? "text-indigo-600 font-bold bg-indigo-50"
-                      : "text-gray-600 hover:text-black hover:bg-gray-50")
-                  }
+                      : "text-gray-600 hover:text-black hover:bg-gray-50"
+                  }`}
                 >
                   {item.title}
                   {item.subMenu.length > 0 && (

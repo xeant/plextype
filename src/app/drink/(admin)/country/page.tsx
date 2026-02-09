@@ -1,10 +1,10 @@
 import { db } from "@/lib/db";
-import SyncButton from "../components/SyncButton";
-import { deleteCountryAction } from "../drink.actions";
+import SyncButton from "../_components/SyncButton";
+import { deleteCountryAction } from "../_actions/drink";
 import { redirect } from "next/navigation";
 
 
-import { syncCountriesAction } from "../drink.actions"; // 이전에 만든 서버 액션
+import { syncCountriesAction } from "../_actions/drink"; // 이전에 만든 서버 액션
 
 interface Props {
   searchParams: { [key: string]: string | string[] | undefined };

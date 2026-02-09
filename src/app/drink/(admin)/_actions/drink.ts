@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { ExternalCountryResponse } from "./drink.types";
+import { ExternalCountryResponse } from "@/app/drink/_type/drink";
 
 const API_URL = "https://restcountries.com/v3.1/all?fields=name,translations,cca2,continents,flags";
 

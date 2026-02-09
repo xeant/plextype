@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { syncCountriesAction } from "../drink.actions";
+import { syncCountriesAction } from "../_actions/drink"; 
 
 export default function SyncButton() {
   const [isPending, setIsPending] = useState(false);

@@ -25,3 +25,15 @@ export interface DrinkCountry {
   listOrder: number;
   status: string;
 }
+
+// src/app/drink/drink.types.ts 에 추가
+
+export interface DrinkCategory {
+  categoryId: number;
+  parentId: number;
+  name: string;
+  description: string | null;
+  depth: number;
+  listOrder: number;
+  status: 'active' | 'inactive' | string;
+}
