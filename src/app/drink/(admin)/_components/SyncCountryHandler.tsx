@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { syncCountriesAction } from "../_actions/drink";
+import { syncCountriesAction } from "../_actions/country";
 
 export default function SyncHandler() {
   const searchParams = useSearchParams();

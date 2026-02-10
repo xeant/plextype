@@ -194,17 +194,17 @@ model Attachment {
   @@index([userId], map: "idx_attachment_user")
 }
 
-
 // 주류 나라정보(일본, 대만 등등)
 model DrinkCountry {
-  countryId   Int      @id @default(autoincrement()) @map("country_id")
-  nameKo      String   @map("name_ko") @db.VarChar(100)
-  nameEn      String?  @map("name_en") @db.VarChar(100)
-  isoCode     String?  @unique @map("iso_code") @db.VarChar(10)
-  continent   String?  @db.VarChar(50)
-  flagPath    String?  @map("flag_path") @db.VarChar(255)
-  listOrder   Int      @default(0) @map("list_order")
-  status      String   @default("active") @db.VarChar(20)
+  countryId      Int             @id @default(autoincrement()) @map("country_id")
+  nameKo         String          @map("name_ko") @db.VarChar(100)
+  nameEn         String?         @map("name_en") @db.VarChar(100)
+  isoCode        String?         @unique @map("iso_code") @db.VarChar(10)
+  continent      String?         @db.VarChar(50)
+  flagPath       String?         @map("flag_path") @db.VarChar(255)
+  listOrder      Int             @default(0) @map("list_order")
+  status         String          @default("active") @db.VarChar(20)
+  drinkProducers DrinkProducer[]
 
   @@index([nameKo], name: "idx_name_ko")
   @@index([isoCode], name: "idx_iso_code")
@@ -213,18 +213,41 @@ model DrinkCountry {
 
 // 주류 카테고리 (와인, 위스키, 맥주 등)
 model DrinkCategory {
-  categoryId  Int             @id @default(autoincrement()) @map("category_id")
-  parentId    Int             @default(0) @map("parent_id")
-  name        String          @db.VarChar(100)
-  description String?         @db.Text
-  depth       Int             @default(1) @db.SmallInt
-  listOrder   Int             @default(0) @map("list_order")
-  status      String          @default("active") @db.VarChar(20)
-  
+  categoryId  Int     @id @default(autoincrement()) @map("category_id")
+  parentId    Int     @default(0) @map("parent_id")
+  name        String  @db.VarChar(100)
+  description String? @db.Text
+  depth       Int     @default(1) @db.SmallInt
+  listOrder   Int     @default(0) @map("list_order")
+  status      String  @default("active") @db.VarChar(20)
+
   @@map("drink_category")
 }
 
+// 주류 생산자 정보 (샤또, 양조장 등)
+model DrinkProducer {
+  producerId  Int       @id @default(autoincrement()) @map("producer_id")
+  countryId   Int       @default(0) @map("country_id")
+  nameKo      String    @map("name_ko") @db.VarChar(255)
+  nameEn      String?   @map("name_en") @db.VarChar(255)
+  region      String?   @db.VarChar(100)
+  description String?   @db.Text
+  status      String    @default("active") @db.VarChar(20)
+  latlng      String?   @db.VarChar(200)
+  address     String?   @db.VarChar(300)
+  mapUrl      String?   @map("map_url") @db.VarChar(500)
+  mapType     String?   @map("map_type") @db.VarChar(10)
+  homepage    String?   @map("homepage") @db.VarChar(100)
+  regdate     DateTime  @default(now()) @map("regdate")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
 
+  // 관계 설정 (Country 모델이 이미 있다고 가정)
+  country DrinkCountry? @relation(fields: [countryId], references: [countryId])
+
+  @@index([countryId], map: "idx_producer_country")
+  @@index([nameKo], map: "idx_producer_name_ko")
+  @@map("drink_producer") // 실제 DB 테이블 이름 고정
+}
 
 enum PermissionSubject {
   guest

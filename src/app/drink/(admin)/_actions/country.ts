@@ -4,7 +4,8 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { ExternalCountryResponse } from "@/app/drink/_type/drink";
 
-const API_URL = "https://restcountries.com/v3.1/all?fields=name,translations,cca2,continents,flags";
+const API_URL =
+  "https://restcountries.com/v3.1/all?fields=name,translations,cca2,continents,flags";
 
 /**
  * 1. 외부 API 동기화 (Sync)
@@ -14,8 +15,9 @@ export async function syncCountriesAction() {
   try {
     const response = await fetch(API_URL, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      },
     });
 
     if (!response.ok) throw new Error(`API 호출 실패: ${response.status}`);
@@ -62,7 +64,10 @@ export async function syncCountriesAction() {
 /**
  * 2. 국가 정보 수정 (Update)
  */
-export async function updateCountryAction(id: number, data: { nameKo: string; status: string }) {
+export async function updateCountryAction(
+  id: number,
+  data: { nameKo: string; status: string },
+) {
   try {
     await db.drinkCountry.update({
       where: { countryId: id },
@@ -92,5 +97,54 @@ export async function deleteCountryAction(id: number) {
     return { success: true, message: "삭제되었습니다." };
   } catch (error) {
     return { success: false, message: "삭제 실패" };
+  }
+}
+
+export async function getCountries() {
+  try {
+    const countries = await db.drinkCountry.findMany({
+      where: {
+        status: "active", // 활성화된 국가만 필터링
+      },
+      orderBy: {
+        nameKo: "asc", // 한글명 기준 가나다순 정렬
+      },
+    });
+    return countries;
+  } catch (error) {
+    console.error("국가 목록 조회 에러:", error);
+    return [];
+  }
+}
+
+export async function getCountryById(countryId: number) {
+  try {
+    const country = await db.drinkCountry.findUnique({
+      where: { countryId },
+    });
+    return country;
+  } catch (error) {
+    console.error(`국가 상세 조회 에러 (ID: ${countryId}):`, error);
+    return null;
+  }
+}
+
+/**
+ * 3. 국가 정보 수정/업데이트
+ */
+export async function updateCountry(
+  countryId: number,
+  data: { nameKo: string; nameEn?: string; status?: string },
+) {
+  try {
+    await db.drinkCountry.update({
+      where: { countryId },
+      data,
+    });
+    revalidatePath("/drink/producer"); // 증류소 페이지 등 관련 페이지 갱신
+    return { success: true };
+  } catch (error) {
+    console.error("국가 정보 수정 에러:", error);
+    return { success: false, error: "국가 정보 수정에 실패했습니다." };
   }
 }
