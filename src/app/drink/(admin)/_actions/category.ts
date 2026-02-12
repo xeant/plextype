@@ -30,11 +30,7 @@ export async function getCategoryTree() {
  * 새로운 카테고리 생성
  */
 // 카테고리 생성 시 description 추가
-export async function createCategory(data: {
-  name: string;
-  parentId?: number;
-  description?: string;
-}) {
+export async function createCategory(data: { name: string; parentId?: number; description?: string }) {
   try {
     const parentId = data.parentId || 0;
     let newCategoryId: number;
@@ -78,7 +74,7 @@ export async function updateCategory(
     name: string;
     description?: string;
     parentId?: number;
-  },
+  }
 ) {
   try {
     await db.drinkCategory.update({

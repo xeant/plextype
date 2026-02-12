@@ -213,13 +213,14 @@ model DrinkCountry {
 
 // 주류 카테고리 (와인, 위스키, 맥주 등)
 model DrinkCategory {
-  categoryId  Int     @id @default(autoincrement()) @map("category_id")
-  parentId    Int     @default(0) @map("parent_id")
-  name        String  @db.VarChar(100)
-  description String? @db.Text
-  depth       Int     @default(1) @db.SmallInt
-  listOrder   Int     @default(0) @map("list_order")
-  status      String  @default("active") @db.VarChar(20)
+  categoryId     Int             @id @default(autoincrement()) @map("category_id")
+  parentId       Int             @default(0) @map("parent_id")
+  name           String          @db.VarChar(100)
+  description    String?         @db.Text
+  depth          Int             @default(1) @db.SmallInt
+  listOrder      Int             @default(0) @map("list_order")
+  status         String          @default("active") @db.VarChar(20)
+  drinkBeverages DrinkBeverage[]
 
   @@map("drink_category")
 }
@@ -242,11 +243,49 @@ model DrinkProducer {
   updatedAt   DateTime? @updatedAt @map("updated_at")
 
   // 관계 설정 (Country 모델이 이미 있다고 가정)
-  country DrinkCountry? @relation(fields: [countryId], references: [countryId])
+  country        DrinkCountry?   @relation(fields: [countryId], references: [countryId])
+  drinkBeverages DrinkBeverage[]
 
   @@index([countryId], map: "idx_producer_country")
   @@index([nameKo], map: "idx_producer_name_ko")
   @@map("drink_producer") // 실제 DB 테이블 이름 고정
+}
+
+// 음료 관리 
+model DrinkBeverage {
+  beverageId Int @id @default(autoincrement()) @map("beverage_id")
+  categoryId Int @map("category_id")
+  producerId Int @map("producer_id")
+
+  nameKo String @map("name_ko") @db.VarChar(255)
+  nameEn String @map("name_en") @db.VarChar(255)
+
+  // 도수: 40.5% 등을 위해 Decimal 사용 (Precision 4, Scale 1)
+  abv Decimal @default(0) @db.Decimal(4, 1)
+
+  imageUrl String? @map("image_url") @db.VarChar(255)
+
+  // 상세 스펙 (테이스팅 노트, 숙성 년수 등 JSON 형태 추천)
+  specData Json? @map("spec_data")
+
+  readedCount Int @default(0) @map("readed_count")
+  votedCount  Int @default(0) @map("voted_count")
+
+  status    String   @default("active") @db.VarChar(20)
+  regdate   DateTime @default(now()) @map("regdate")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // 관계 설정 (DB 조인을 위해 필요)
+  category DrinkCategory @relation(fields: [categoryId], references: [categoryId])
+  producer DrinkProducer @relation(fields: [producerId], references: [producerId])
+
+  // 같은 증류소에 똑같은 이름의 술이 중복 등록되는 것 방지
+  @@unique([producerId, nameKo])
+  @@index([categoryId], name: "idx_category")
+  @@index([producerId], name: "idx_producer")
+  @@index([nameKo], name: "idx_beverage_name_ko")
+  @@index([nameEn], name: "idx_beverage_name_en")
+  @@map("drink_beverage")
 }
 
 enum PermissionSubject {

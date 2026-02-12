@@ -31,10 +31,10 @@
       "route": "/drink/producer",
       "subMenu": []
     },
-    "price": {
-      "name": "price",
-      "title": "가격 관리",
-      "route": "/drink/price",
+    "beverage": {
+      "name": "beverage",
+      "title": "음료 관리",
+      "route": "/drink/beverage",
       "subMenu": []
     }
   }
